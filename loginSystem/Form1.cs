@@ -91,6 +91,23 @@ namespace loginSystem
                     IPEndPoint port = new IPEndPoint(ip, 1234);
                     clientSocket.Connect(port);
                     clientSocket.Send(message);
+                    byte[] msg = new byte[256];
+                    while (true)
+                    {
+                        try
+                        {
+                            clientSocket.Receive(msg, 0, 256, SocketFlags.None);
+                            String data = Encoding.UTF8.GetString(msg);
+                        }
+                        catch (SocketException)
+                        {
+                            MessageBox.Show("服务器意外断开了连接");
+                            clientSocket.Close();
+                            clientSocket = null;
+                            ip = null;
+                            return false;
+                        }
+                    }
                     return true;
                 }
                 catch (SocketException)
