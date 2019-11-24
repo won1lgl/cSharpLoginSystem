@@ -67,6 +67,7 @@
             // 
             this.codeTextbox.Location = new System.Drawing.Point(148, 170);
             this.codeTextbox.Name = "codeTextbox";
+            this.codeTextbox.PasswordChar = '*';
             this.codeTextbox.Size = new System.Drawing.Size(196, 25);
             this.codeTextbox.TabIndex = 3;
             // 
