@@ -18,6 +18,8 @@ namespace loginSystem
     public partial class Form1 : Form
     {
         private const string userInfoFilePath = @"C:\Users\21921\Desktop\new.txt";
+        Client client = new Client();
+        User newUser;
 
         public Form1()
         {
@@ -36,7 +38,7 @@ namespace loginSystem
             {
                 StreamReader sr = null;
                 sr = File.OpenText(userInfoFilePath);
-                string[] userInfo = new string[2];
+                string[] userInfo = new string[3];
                 int i = 0;
                 while (sr.Peek() != -1)
                 {
@@ -49,6 +51,15 @@ namespace loginSystem
                 {
                     rememberCodeCheckBox.Checked = true;
                 }
+                if(userInfo[2] == "autoSign")
+                {
+                    MessageBox.Show("自动登录");
+                    newUser = new User(userInfo[0], userInfo[1]);
+                    //client.register(newUser);
+                }
+            } else
+            {
+                titleLabel.Text = "注册";
             }
         }
 
@@ -56,9 +67,20 @@ namespace loginSystem
 
         private void submitButton_Click(object sender, EventArgs e)
         {
-            User newUser = new User(usernameTextbox.Text, codeTextbox.Text);
-            newUser.saveUserInfo(rememberCodeCheckBox.Checked);
-            Client client = new Client();
+
+            newUser = new User(usernameTextbox.Text, codeTextbox.Text);
+            //check whether the input info is legal
+            if (newUser.username == "")
+            {
+                MessageBox.Show("用户名不得为空！");
+                return;
+            }
+            if (newUser.password == "")
+            {
+                MessageBox.Show("密码不得为空！");
+                return;
+            }
+            newUser.saveUserInfo(rememberCodeCheckBox.Checked, autoSignCheckBox.Checked);
             //client.register(newUser);
         }
 
@@ -75,7 +97,7 @@ namespace loginSystem
             }
 
             //save the userinfo
-            public void saveUserInfo(Boolean isSaveCode)
+            public void saveUserInfo(Boolean isSaveCode, Boolean isAutoSign)
             {
                 StreamWriter sw;
                 try
@@ -92,6 +114,10 @@ namespace loginSystem
                 {
                     sw.WriteLine(password);
                 }
+                if (isAutoSign)
+                {
+                    sw.WriteLine("autoSign");
+                }
                 sw.Close();
             }
         }
@@ -100,18 +126,6 @@ namespace loginSystem
         {
             public Boolean register(User newuser)
             {
-                //check whether the input info is legal
-                if (newuser.username == "")
-                {
-                    MessageBox.Show("用户名不得为空！");
-                    return false;
-                }
-                if (newuser.password == "")
-                {
-                    MessageBox.Show("密码不得为空！");
-                    return false;
-                }
-
                 //if all input are legal, then send them to the server
                 Socket clientSocket;
                 IPAddress ip;
