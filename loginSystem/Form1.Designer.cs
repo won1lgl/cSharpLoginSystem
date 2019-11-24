@@ -45,7 +45,6 @@
             this.usernameLabel.Size = new System.Drawing.Size(82, 24);
             this.usernameLabel.TabIndex = 0;
             this.usernameLabel.Text = "用户名";
-            this.usernameLabel.Click += new System.EventHandler(this.label1_Click);
             // 
             // usernameTextbox
             // 
@@ -81,6 +80,7 @@
             this.submitButton.TabIndex = 4;
             this.submitButton.Text = "确定";
             this.submitButton.UseVisualStyleBackColor = true;
+            this.submitButton.Click += new System.EventHandler(this.submitButton_Click);
             // 
             // titleLabel
             // 
@@ -88,7 +88,7 @@
             this.titleLabel.Font = new System.Drawing.Font("华文中宋", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.titleLabel.Location = new System.Drawing.Point(168, 28);
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(92, 42);
+            this.titleLabel.Size = new System.Drawing.Size(96, 44);
             this.titleLabel.TabIndex = 5;
             this.titleLabel.Text = "登录";
             // 
@@ -105,6 +105,7 @@
             this.Controls.Add(this.usernameLabel);
             this.Name = "Form1";
             this.Text = "欢迎";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -8,3 +8,16 @@ D:\C#Project\loginSystem\loginSystem\obj\Debug\loginSystem.csproj.GenerateResour
 D:\C#Project\loginSystem\loginSystem\obj\Debug\loginSystem.csproj.CoreCompileInputs.cache
 D:\C#Project\loginSystem\loginSystem\obj\Debug\loginSystem.exe
 D:\C#Project\loginSystem\loginSystem\obj\Debug\loginSystem.pdb
+C:\Users\21921\Desktop\LoginSystem\loginSystem\obj\Debug\loginSystem.csprojAssemblyReference.cache
+C:\Users\21921\Desktop\LoginSystem\loginSystem\obj\Debug\loginSystem.Form1.resources
+C:\Users\21921\Desktop\LoginSystem\loginSystem\obj\Debug\loginSystem.Properties.Resources.resources
+C:\Users\21921\Desktop\LoginSystem\loginSystem\obj\Debug\loginSystem.csproj.GenerateResource.cache
+C:\Users\21921\Desktop\LoginSystem\loginSystem\obj\Debug\loginSystem.csproj.CoreCompileInputs.cache
+C:\Users\21921\Desktop\LoginSystem\loginSystem\obj\Debug\loginSystem.exe
+C:\Users\21921\Desktop\LoginSystem\loginSystem\obj\Debug\loginSystem.pdb
+C:\Users\21921\Desktop\LoginSystem\loginSystem\bin\Debug\loginSystem.exe.config
+C:\Users\21921\Desktop\LoginSystem\loginSystem\bin\Debug\loginSystem.exe
+C:\Users\21921\Desktop\LoginSystem\loginSystem\bin\Debug\loginSystem.pdb
+C:\Users\21921\Desktop\LoginSystem\loginSystem\bin\Debug\Newtonsoft.Json.dll
+C:\Users\21921\Desktop\LoginSystem\loginSystem\bin\Debug\Newtonsoft.Json.xml
+C:\Users\21921\Desktop\LoginSystem\loginSystem\obj\Debug\loginSystem.csproj.CopyComplete
