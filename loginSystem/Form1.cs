@@ -29,6 +29,7 @@ namespace loginSystem
             readUserInfo();
         }
 
+        //if exist userinfo, then read it into the textbox
         public void readUserInfo()
         {
             if (File.Exists(userInfoFilePath))
@@ -41,8 +42,13 @@ namespace loginSystem
                 {
                     userInfo[i++] = sr.ReadLine();
                 }
+                sr.Close();
                 usernameTextbox.Text = userInfo[0];
                 codeTextbox.Text = userInfo[1];
+                if(userInfo[1] != "")
+                {
+                    rememberCodeCheckBox.Checked = true;
+                }
             }
         }
 
@@ -51,7 +57,7 @@ namespace loginSystem
         private void submitButton_Click(object sender, EventArgs e)
         {
             User newUser = new User(usernameTextbox.Text, codeTextbox.Text);
-            newUser.saveUserInfo();
+            newUser.saveUserInfo(rememberCodeCheckBox.Checked);
             Client client = new Client();
             //client.register(newUser);
         }
@@ -69,7 +75,7 @@ namespace loginSystem
             }
 
             //save the userinfo
-            public void saveUserInfo()
+            public void saveUserInfo(Boolean isSaveCode)
             {
                 StreamWriter sw;
                 try
@@ -82,7 +88,10 @@ namespace loginSystem
                     return;
                 }
                 sw.WriteLine(username);
-                sw.WriteLine(password);
+                if (isSaveCode)
+                {
+                    sw.WriteLine(password);
+                }
                 sw.Close();
             }
         }
@@ -157,6 +166,18 @@ namespace loginSystem
                     ip = null;
                     return false;
                 }
+            }
+        }
+
+        //checkbox to show the code
+        private void showCodeCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (showCodeCheckBox.Checked == true)
+            {
+                codeTextbox.PasswordChar = new char();
+            } else
+            {
+                codeTextbox.PasswordChar = '*';
             }
         }
     }

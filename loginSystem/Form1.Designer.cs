@@ -34,6 +34,9 @@
             this.codeTextbox = new System.Windows.Forms.TextBox();
             this.submitButton = new System.Windows.Forms.Button();
             this.titleLabel = new System.Windows.Forms.Label();
+            this.showCodeCheckBox = new System.Windows.Forms.CheckBox();
+            this.rememberCodeCheckBox = new System.Windows.Forms.CheckBox();
+            this.autoSignCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // usernameLabel
@@ -93,11 +96,46 @@
             this.titleLabel.TabIndex = 5;
             this.titleLabel.Text = "登录";
             // 
+            // showCodeCheckBox
+            // 
+            this.showCodeCheckBox.AutoSize = true;
+            this.showCodeCheckBox.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.showCodeCheckBox.Location = new System.Drawing.Point(272, 224);
+            this.showCodeCheckBox.Name = "showCodeCheckBox";
+            this.showCodeCheckBox.Size = new System.Drawing.Size(89, 19);
+            this.showCodeCheckBox.TabIndex = 6;
+            this.showCodeCheckBox.Text = "显示密码";
+            this.showCodeCheckBox.UseVisualStyleBackColor = true;
+            this.showCodeCheckBox.CheckedChanged += new System.EventHandler(this.showCodeCheckBox_CheckedChanged);
+            // 
+            // rememberCodeCheckBox
+            // 
+            this.rememberCodeCheckBox.AutoSize = true;
+            this.rememberCodeCheckBox.Location = new System.Drawing.Point(160, 225);
+            this.rememberCodeCheckBox.Name = "rememberCodeCheckBox";
+            this.rememberCodeCheckBox.Size = new System.Drawing.Size(89, 19);
+            this.rememberCodeCheckBox.TabIndex = 7;
+            this.rememberCodeCheckBox.Text = "记住密码";
+            this.rememberCodeCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // autoSignCheckBox
+            // 
+            this.autoSignCheckBox.AutoSize = true;
+            this.autoSignCheckBox.Location = new System.Drawing.Point(48, 225);
+            this.autoSignCheckBox.Name = "autoSignCheckBox";
+            this.autoSignCheckBox.Size = new System.Drawing.Size(89, 19);
+            this.autoSignCheckBox.TabIndex = 8;
+            this.autoSignCheckBox.Text = "自动登录";
+            this.autoSignCheckBox.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(407, 362);
+            this.Controls.Add(this.autoSignCheckBox);
+            this.Controls.Add(this.rememberCodeCheckBox);
+            this.Controls.Add(this.showCodeCheckBox);
             this.Controls.Add(this.titleLabel);
             this.Controls.Add(this.submitButton);
             this.Controls.Add(this.codeTextbox);
@@ -120,6 +158,9 @@
         private System.Windows.Forms.TextBox codeTextbox;
         private System.Windows.Forms.Button submitButton;
         private System.Windows.Forms.Label titleLabel;
+        private System.Windows.Forms.CheckBox showCodeCheckBox;
+        private System.Windows.Forms.CheckBox rememberCodeCheckBox;
+        private System.Windows.Forms.CheckBox autoSignCheckBox;
     }
 }
 
