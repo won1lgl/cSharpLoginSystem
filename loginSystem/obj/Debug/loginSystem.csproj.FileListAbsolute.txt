@@ -1,0 +1,10 @@
+D:\C#Project\loginSystem\loginSystem\bin\Debug\loginSystem.exe.config
+D:\C#Project\loginSystem\loginSystem\bin\Debug\loginSystem.exe
+D:\C#Project\loginSystem\loginSystem\bin\Debug\loginSystem.pdb
+D:\C#Project\loginSystem\loginSystem\obj\Debug\loginSystem.csprojAssemblyReference.cache
+D:\C#Project\loginSystem\loginSystem\obj\Debug\loginSystem.Form1.resources
+D:\C#Project\loginSystem\loginSystem\obj\Debug\loginSystem.Properties.Resources.resources
+D:\C#Project\loginSystem\loginSystem\obj\Debug\loginSystem.csproj.GenerateResource.cache
+D:\C#Project\loginSystem\loginSystem\obj\Debug\loginSystem.csproj.CoreCompileInputs.cache
+D:\C#Project\loginSystem\loginSystem\obj\Debug\loginSystem.exe
+D:\C#Project\loginSystem\loginSystem\obj\Debug\loginSystem.pdb
