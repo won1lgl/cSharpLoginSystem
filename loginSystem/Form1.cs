@@ -11,11 +11,14 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.IO;
 
 namespace loginSystem
 {
     public partial class Form1 : Form
     {
+        private const string userInfoFilePath = @"C:\Users\21921\Desktop\new.txt";
+
         public Form1()
         {
             InitializeComponent();
@@ -23,7 +26,24 @@ namespace loginSystem
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            readUserInfo();
+        }
 
+        public void readUserInfo()
+        {
+            if (File.Exists(userInfoFilePath))
+            {
+                StreamReader sr = null;
+                sr = File.OpenText(userInfoFilePath);
+                string[] userInfo = new string[2];
+                int i = 0;
+                while (sr.Peek() != -1)
+                {
+                    userInfo[i++] = sr.ReadLine();
+                }
+                usernameTextbox.Text = userInfo[0];
+                codeTextbox.Text = userInfo[1];
+            }
         }
 
         //MARK:Action
@@ -31,8 +51,9 @@ namespace loginSystem
         private void submitButton_Click(object sender, EventArgs e)
         {
             User newUser = new User(usernameTextbox.Text, codeTextbox.Text);
+            newUser.saveUserInfo();
             Client client = new Client();
-            client.register(newUser);
+            //client.register(newUser);
         }
 
         //MARK:Custom class
@@ -47,6 +68,23 @@ namespace loginSystem
                 this.password = password;
             }
 
+            //save the userinfo
+            public void saveUserInfo()
+            {
+                StreamWriter sw;
+                try
+                {
+                    sw = File.CreateText(userInfoFilePath);
+                }
+                catch
+                {
+                    MessageBox.Show("文件创建失败");
+                    return;
+                }
+                sw.WriteLine(username);
+                sw.WriteLine(password);
+                sw.Close();
+            }
         }
 
         public class Client
@@ -87,11 +125,13 @@ namespace loginSystem
                 }
                 try
                 {
+                    //send message to the server
                     clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                     IPEndPoint port = new IPEndPoint(ip, 1234);
                     clientSocket.Connect(port);
                     clientSocket.Send(message);
                     byte[] msg = new byte[256];
+                    //recieve the message from the server
                     while (true)
                     {
                         try
