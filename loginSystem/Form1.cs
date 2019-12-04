@@ -20,8 +20,11 @@ namespace loginSystem
     {
         //MARK: property
         private const string userInfoFilePath = @"C:\Users\21921\Desktop\new.txt";
+        private const string userPicturePath = @"C:\Users\21921\Desktop\new.bin";
         Client client = new Client();
         User newUser;
+        byte[] userPicturebytes; //save the userPicture
+        Boolean isRegister;   //judge whether user is register or sign in
 
         public Form1()
         {
@@ -30,13 +33,14 @@ namespace loginSystem
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            isRegister = File.Exists(userInfoFilePath) ? false : true;
             readUserInfo();
         }
 
         //If exist userinfo, then read it into the textbox
         public void readUserInfo()
         {
-            if (File.Exists(userInfoFilePath))
+            if (!isRegister)
             {
                 StreamReader sr = null;
                 sr = File.OpenText(userInfoFilePath);
@@ -57,8 +61,21 @@ namespace loginSystem
                     {
                         MessageBox.Show("自动登录");
                     }
+                    
                 }
                 sr.Close();
+                //load the image
+                FileStream fs = new FileStream(userPicturePath, FileMode.Open);
+                BinaryReader br = new BinaryReader(fs);
+                int length = Convert.ToInt32(br.BaseStream.Length);
+                userPicturebytes = br.ReadBytes(length);
+                br.Close();
+                fs.Close();
+                MemoryStream ms = new MemoryStream(userPicturebytes);
+                userPictureBox.Image = Image.FromStream(ms);
+                //change UI
+                choosePictureButton.Visible = false;
+                usernameTextbox.ReadOnly = true;
             } else
             {
                 titleLabel.Text = "注册";
@@ -68,8 +85,8 @@ namespace loginSystem
         //MARK:Action
         private void submitButton_Click(object sender, EventArgs e)
         {
-
-            newUser = new User(usernameTextbox.Text, codeTextbox.Text);
+            //register user
+            newUser = new User("01", usernameTextbox.Text, codeTextbox.Text, userPicturebytes);
             //check whether the input info is legal
             if (newUser.username == "")
             {
@@ -81,20 +98,79 @@ namespace loginSystem
                 MessageBox.Show("密码不得为空！");
                 return;
             }
+            if(newUser.userPicture == null)
+            {
+                MessageBox.Show("请上传头像！");
+            }
             newUser.saveUserInfo(rememberCodeCheckBox.Checked, autoSignCheckBox.Checked);
             //client.register(newUser);
+        }
+
+        //checkbox to show the code
+        private void showCodeCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (showCodeCheckBox.Checked == true)
+            {
+                codeTextbox.PasswordChar = new char();
+            }
+            else
+            {
+                codeTextbox.PasswordChar = '*';
+            }
+        }
+
+        //choose the userPicture to show 
+        private void choosePictureButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog file = new OpenFileDialog();
+            file.InitialDirectory = ".";
+            file.Filter = "jpg图片|*.jpg|gif图片|*.gif|png图片|*.png";
+            if (file.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    FileStream fs = new FileStream(file.FileName, FileMode.Open);
+                    BinaryReader br = new BinaryReader(fs);
+                    int lenth = Convert.ToInt32(br.BaseStream.Length);
+                    userPicturebytes = br.ReadBytes(lenth);
+                    using (FileStream fs1 = new FileStream(userPicturePath, FileMode.Create))
+                    {
+                        BinaryWriter bw = new BinaryWriter(fs1);
+                        for(int i = 0; i < userPicturebytes.Length; i++)
+                        {
+                            bw.Write(userPicturebytes[i]);
+                        }
+                        bw.Close();
+                    }
+                    br.Close();
+                    fs.Close();
+                    MemoryStream ms = new MemoryStream(userPicturebytes);
+                    userPictureBox.Image = Image.FromStream(ms);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
         }
 
         //MARK:Custom class
         public class User
         {
-            public string cmd = "01"; 
+            public string cmd; 
             public string username;
             public string password;
-            public User(string username, string password)
+            public byte[] userPicture;
+            public User(string cmd, string username, string password, byte[] userPhoto)
             {
+                if(cmd == "")
+                {
+                    MessageBox.Show("cmd字段不能为空！");
+                }
+                this.cmd = cmd;
                 this.username = username;
                 this.password = password;
+                this.userPicture = userPhoto;
             }
 
             //save the userinfo
@@ -181,37 +257,6 @@ namespace loginSystem
                     clientSocket = null;
                     ip = null;
                     return false;
-                }
-            }
-        }
-
-        //checkbox to show the code
-        private void showCodeCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (showCodeCheckBox.Checked == true)
-            {
-                codeTextbox.PasswordChar = new char();
-            } else
-            {
-                codeTextbox.PasswordChar = '*';
-            }
-        }
-
-        //choose the userPicture to show 
-        private void choosePictureButton_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog file = new OpenFileDialog();
-            file.InitialDirectory = ".";
-            file.Filter = "所有文件(*.*)|*.*";
-            file.ShowDialog();
-            if(file.FileName != string.Empty)
-            {
-                try
-                {
-                    userPictureBox.Load(file.FileName);
-                } catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
                 }
             }
         }
