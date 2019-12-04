@@ -39,6 +39,7 @@
             this.autoSignCheckBox = new System.Windows.Forms.CheckBox();
             this.choosePictureButton = new System.Windows.Forms.Button();
             this.userPictureBox = new System.Windows.Forms.PictureBox();
+            this.changeUserInfoButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.userPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -151,11 +152,23 @@
             this.userPictureBox.TabIndex = 11;
             this.userPictureBox.TabStop = false;
             // 
+            // changeUserInfoButton
+            // 
+            this.changeUserInfoButton.Location = new System.Drawing.Point(284, 173);
+            this.changeUserInfoButton.Name = "changeUserInfoButton";
+            this.changeUserInfoButton.Size = new System.Drawing.Size(84, 30);
+            this.changeUserInfoButton.TabIndex = 12;
+            this.changeUserInfoButton.Text = "修改信息";
+            this.changeUserInfoButton.UseVisualStyleBackColor = true;
+            this.changeUserInfoButton.Visible = false;
+            this.changeUserInfoButton.Click += new System.EventHandler(this.changeUserInfoButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(407, 463);
+            this.Controls.Add(this.changeUserInfoButton);
             this.Controls.Add(this.userPictureBox);
             this.Controls.Add(this.choosePictureButton);
             this.Controls.Add(this.autoSignCheckBox);
@@ -189,6 +202,7 @@
         private System.Windows.Forms.CheckBox autoSignCheckBox;
         private System.Windows.Forms.Button choosePictureButton;
         private System.Windows.Forms.PictureBox userPictureBox;
+        private System.Windows.Forms.Button changeUserInfoButton;
     }
 }
 

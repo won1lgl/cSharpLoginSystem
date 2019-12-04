@@ -12,7 +12,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.IO;
-using System.Collections;
 
 namespace loginSystem
 {
@@ -24,7 +23,8 @@ namespace loginSystem
         Client client = new Client();
         User newUser;
         byte[] userPicturebytes; //save the userPicture
-        Boolean isRegister;   //judge whether user is register or sign in
+        private Boolean isRegister;   //judge whether user is register or sign in
+        private Boolean isChangeUserInfo = false; //judge whether user choose to change userInfo
 
         public Form1()
         {
@@ -76,6 +76,7 @@ namespace loginSystem
                 //change UI
                 choosePictureButton.Visible = false;
                 usernameTextbox.ReadOnly = true;
+                changeUserInfoButton.Visible = true;
             } else
             {
                 titleLabel.Text = "注册";
@@ -86,7 +87,7 @@ namespace loginSystem
         private void submitButton_Click(object sender, EventArgs e)
         {
             //register user
-            newUser = new User("01", usernameTextbox.Text, codeTextbox.Text, userPicturebytes);
+            newUser = new User(usernameTextbox.Text, codeTextbox.Text, userPicturebytes);
             //check whether the input info is legal
             if (newUser.username == "")
             {
@@ -101,6 +102,14 @@ namespace loginSystem
             if(newUser.userPicture == null)
             {
                 MessageBox.Show("请上传头像！");
+            }
+            if (!isRegister)
+            {
+                newUser.cmd = "02";
+            }
+            if(isChangeUserInfo)
+            {
+                newUser.cmd = "03";
             }
             newUser.saveUserInfo(rememberCodeCheckBox.Checked, autoSignCheckBox.Checked);
             //client.register(newUser);
@@ -154,20 +163,25 @@ namespace loginSystem
             }
         }
 
+
+        private void changeUserInfoButton_Click(object sender, EventArgs e)
+        {
+            usernameTextbox.ReadOnly = false;
+            choosePictureButton.Visible = true;
+            changeUserInfoButton.Visible = false;
+            isChangeUserInfo = true;
+            titleLabel.Text = "修改";
+        }
+
         //MARK:Custom class
         public class User
         {
-            public string cmd; 
+            public string cmd = "01"; 
             public string username;
             public string password;
             public byte[] userPicture;
-            public User(string cmd, string username, string password, byte[] userPhoto)
+            public User(string username, string password, byte[] userPhoto)
             {
-                if(cmd == "")
-                {
-                    MessageBox.Show("cmd字段不能为空！");
-                }
-                this.cmd = cmd;
                 this.username = username;
                 this.password = password;
                 this.userPicture = userPhoto;
@@ -239,6 +253,7 @@ namespace loginSystem
                         {
                             clientSocket.Receive(msg, 0, 256, SocketFlags.None);
                             String data = Encoding.UTF8.GetString(msg);
+                            return true;
                         }
                         catch (SocketException)
                         {
@@ -249,7 +264,6 @@ namespace loginSystem
                             return false;
                         }
                     }
-                    return true;
                 }
                 catch (SocketException)
                 {
@@ -260,5 +274,6 @@ namespace loginSystem
                 }
             }
         }
+
     }
 }
