@@ -12,11 +12,13 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.IO;
+using System.Collections;
 
 namespace loginSystem
 {
     public partial class Form1 : Form
     {
+        //MARK: property
         private const string userInfoFilePath = @"C:\Users\21921\Desktop\new.txt";
         Client client = new Client();
         User newUser;
@@ -31,32 +33,32 @@ namespace loginSystem
             readUserInfo();
         }
 
-        //if exist userinfo, then read it into the textbox
+        //If exist userinfo, then read it into the textbox
         public void readUserInfo()
         {
             if (File.Exists(userInfoFilePath))
             {
                 StreamReader sr = null;
                 sr = File.OpenText(userInfoFilePath);
-                string[] userInfo = new string[3];
-                int i = 0;
                 while (sr.Peek() != -1)
                 {
-                    userInfo[i++] = sr.ReadLine();
+                    string userInfoText = sr.ReadLine();
+                    string[] userInfoTextArray = System.Text.RegularExpressions.Regex.Split(userInfoText, @"\s{1,}");
+                    if(userInfoTextArray[0] == "@username")
+                    {
+                        usernameTextbox.Text = userInfoTextArray[1];
+                    }
+                    if(userInfoTextArray[0] == "@password")
+                    {
+                        codeTextbox.Text = userInfoTextArray[1];
+                        rememberCodeCheckBox.Checked = true;
+                    }
+                    if (userInfoTextArray[0] == "@autoSign")
+                    {
+                        MessageBox.Show("自动登录");
+                    }
                 }
                 sr.Close();
-                usernameTextbox.Text = userInfo[0];
-                codeTextbox.Text = userInfo[1];
-                if(userInfo[1] != "")
-                {
-                    rememberCodeCheckBox.Checked = true;
-                }
-                if(userInfo[2] == "autoSign")
-                {
-                    MessageBox.Show("自动登录");
-                    newUser = new User(userInfo[0], userInfo[1]);
-                    //client.register(newUser);
-                }
             } else
             {
                 titleLabel.Text = "注册";
@@ -64,7 +66,6 @@ namespace loginSystem
         }
 
         //MARK:Action
-
         private void submitButton_Click(object sender, EventArgs e)
         {
 
@@ -104,19 +105,20 @@ namespace loginSystem
                 {
                     sw = File.CreateText(userInfoFilePath);
                 }
-                catch
+                catch (Exception e)
                 {
                     MessageBox.Show("文件创建失败");
+                    Console.WriteLine(e);
                     return;
                 }
-                sw.WriteLine(username);
+                sw.WriteLine($"@username {username}");
                 if (isSaveCode)
                 {
-                    sw.WriteLine(password);
+                    sw.WriteLine($"@password {password}");
                 }
                 if (isAutoSign)
                 {
-                    sw.WriteLine("autoSign");
+                    sw.WriteLine("@autoSign");
                 }
                 sw.Close();
             }
