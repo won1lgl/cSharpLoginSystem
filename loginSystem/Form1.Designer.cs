@@ -37,13 +37,16 @@
             this.showCodeCheckBox = new System.Windows.Forms.CheckBox();
             this.rememberCodeCheckBox = new System.Windows.Forms.CheckBox();
             this.autoSignCheckBox = new System.Windows.Forms.CheckBox();
+            this.choosePictureButton = new System.Windows.Forms.Button();
+            this.userPictureBox = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.userPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // usernameLabel
             // 
             this.usernameLabel.AutoSize = true;
             this.usernameLabel.Font = new System.Drawing.Font("宋体", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.usernameLabel.Location = new System.Drawing.Point(55, 117);
+            this.usernameLabel.Location = new System.Drawing.Point(53, 231);
             this.usernameLabel.Name = "usernameLabel";
             this.usernameLabel.Size = new System.Drawing.Size(82, 24);
             this.usernameLabel.TabIndex = 0;
@@ -51,7 +54,7 @@
             // 
             // usernameTextbox
             // 
-            this.usernameTextbox.Location = new System.Drawing.Point(148, 117);
+            this.usernameTextbox.Location = new System.Drawing.Point(146, 231);
             this.usernameTextbox.Name = "usernameTextbox";
             this.usernameTextbox.Size = new System.Drawing.Size(196, 25);
             this.usernameTextbox.TabIndex = 1;
@@ -60,7 +63,7 @@
             // 
             this.codeLabel.AutoSize = true;
             this.codeLabel.Font = new System.Drawing.Font("宋体", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.codeLabel.Location = new System.Drawing.Point(55, 171);
+            this.codeLabel.Location = new System.Drawing.Point(53, 285);
             this.codeLabel.Name = "codeLabel";
             this.codeLabel.Size = new System.Drawing.Size(58, 24);
             this.codeLabel.TabIndex = 2;
@@ -68,7 +71,7 @@
             // 
             // codeTextbox
             // 
-            this.codeTextbox.Location = new System.Drawing.Point(148, 170);
+            this.codeTextbox.Location = new System.Drawing.Point(146, 284);
             this.codeTextbox.Name = "codeTextbox";
             this.codeTextbox.PasswordChar = '*';
             this.codeTextbox.Size = new System.Drawing.Size(196, 25);
@@ -78,7 +81,7 @@
             // 
             this.submitButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.submitButton.Font = new System.Drawing.Font("华文中宋", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.submitButton.Location = new System.Drawing.Point(148, 265);
+            this.submitButton.Location = new System.Drawing.Point(146, 379);
             this.submitButton.Name = "submitButton";
             this.submitButton.Size = new System.Drawing.Size(131, 42);
             this.submitButton.TabIndex = 4;
@@ -100,7 +103,7 @@
             // 
             this.showCodeCheckBox.AutoSize = true;
             this.showCodeCheckBox.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.showCodeCheckBox.Location = new System.Drawing.Point(272, 224);
+            this.showCodeCheckBox.Location = new System.Drawing.Point(270, 338);
             this.showCodeCheckBox.Name = "showCodeCheckBox";
             this.showCodeCheckBox.Size = new System.Drawing.Size(89, 19);
             this.showCodeCheckBox.TabIndex = 6;
@@ -111,7 +114,7 @@
             // rememberCodeCheckBox
             // 
             this.rememberCodeCheckBox.AutoSize = true;
-            this.rememberCodeCheckBox.Location = new System.Drawing.Point(160, 225);
+            this.rememberCodeCheckBox.Location = new System.Drawing.Point(158, 339);
             this.rememberCodeCheckBox.Name = "rememberCodeCheckBox";
             this.rememberCodeCheckBox.Size = new System.Drawing.Size(89, 19);
             this.rememberCodeCheckBox.TabIndex = 7;
@@ -121,18 +124,40 @@
             // autoSignCheckBox
             // 
             this.autoSignCheckBox.AutoSize = true;
-            this.autoSignCheckBox.Location = new System.Drawing.Point(48, 225);
+            this.autoSignCheckBox.Location = new System.Drawing.Point(46, 339);
             this.autoSignCheckBox.Name = "autoSignCheckBox";
             this.autoSignCheckBox.Size = new System.Drawing.Size(89, 19);
             this.autoSignCheckBox.TabIndex = 8;
             this.autoSignCheckBox.Text = "自动登录";
             this.autoSignCheckBox.UseVisualStyleBackColor = true;
             // 
+            // choosePictureButton
+            // 
+            this.choosePictureButton.Location = new System.Drawing.Point(284, 173);
+            this.choosePictureButton.Name = "choosePictureButton";
+            this.choosePictureButton.Size = new System.Drawing.Size(84, 30);
+            this.choosePictureButton.TabIndex = 10;
+            this.choosePictureButton.Text = "选择头像";
+            this.choosePictureButton.UseVisualStyleBackColor = true;
+            this.choosePictureButton.Click += new System.EventHandler(this.choosePictureButton_Click);
+            // 
+            // userPictureBox
+            // 
+            this.userPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.userPictureBox.Location = new System.Drawing.Point(157, 83);
+            this.userPictureBox.Name = "userPictureBox";
+            this.userPictureBox.Size = new System.Drawing.Size(120, 120);
+            this.userPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.userPictureBox.TabIndex = 11;
+            this.userPictureBox.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(407, 362);
+            this.ClientSize = new System.Drawing.Size(407, 463);
+            this.Controls.Add(this.userPictureBox);
+            this.Controls.Add(this.choosePictureButton);
             this.Controls.Add(this.autoSignCheckBox);
             this.Controls.Add(this.rememberCodeCheckBox);
             this.Controls.Add(this.showCodeCheckBox);
@@ -145,6 +170,7 @@
             this.Name = "Form1";
             this.Text = "欢迎";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.userPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -161,6 +187,8 @@
         private System.Windows.Forms.CheckBox showCodeCheckBox;
         private System.Windows.Forms.CheckBox rememberCodeCheckBox;
         private System.Windows.Forms.CheckBox autoSignCheckBox;
+        private System.Windows.Forms.Button choosePictureButton;
+        private System.Windows.Forms.PictureBox userPictureBox;
     }
 }
 

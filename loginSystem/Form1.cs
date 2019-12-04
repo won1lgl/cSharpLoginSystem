@@ -196,5 +196,24 @@ namespace loginSystem
                 codeTextbox.PasswordChar = '*';
             }
         }
+
+        //choose the userPicture to show 
+        private void choosePictureButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog file = new OpenFileDialog();
+            file.InitialDirectory = ".";
+            file.Filter = "所有文件(*.*)|*.*";
+            file.ShowDialog();
+            if(file.FileName != string.Empty)
+            {
+                try
+                {
+                    userPictureBox.Load(file.FileName);
+                } catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
     }
 }
