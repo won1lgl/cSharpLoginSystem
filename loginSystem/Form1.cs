@@ -31,8 +31,7 @@ namespace loginSystem
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
+        private void Form1_Load(object sender, EventArgs e) { 
             isRegister = File.Exists(userInfoFilePath) ? false : true;
             readUserInfo();
         }
@@ -40,7 +39,7 @@ namespace loginSystem
         //If exist userinfo, then read it into the textbox
         public void readUserInfo()
         {
-            if (!isRegister)
+                if (!isRegister)
             {
                 StreamReader sr = null;
                 sr = File.OpenText(userInfoFilePath);
@@ -113,6 +112,12 @@ namespace loginSystem
             }
             newUser.saveUserInfo(rememberCodeCheckBox.Checked, autoSignCheckBox.Checked);
             //client.register(newUser);
+
+
+            //go to the next Form
+            mainForm mf = new mainForm();
+            mf.Show();
+            this.Hide();
         }
 
         //checkbox to show the code

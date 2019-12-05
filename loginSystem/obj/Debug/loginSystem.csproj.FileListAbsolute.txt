@@ -21,3 +21,4 @@ C:\Users\21921\Desktop\LoginSystem\loginSystem\bin\Debug\loginSystem.pdb
 C:\Users\21921\Desktop\LoginSystem\loginSystem\bin\Debug\Newtonsoft.Json.dll
 C:\Users\21921\Desktop\LoginSystem\loginSystem\bin\Debug\Newtonsoft.Json.xml
 C:\Users\21921\Desktop\LoginSystem\loginSystem\obj\Debug\loginSystem.csproj.CopyComplete
+C:\Users\21921\Desktop\LoginSystem\loginSystem\obj\Debug\loginSystem.mainForm.resources
