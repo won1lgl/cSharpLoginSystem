@@ -98,10 +98,10 @@ namespace loginSystem
                 MessageBox.Show("密码不得为空！");
                 return;
             }
-            if(newUser.userPicture == null)
-            {
-                MessageBox.Show("请上传头像！");
-            }
+            //if(newUser.userPicture == null)
+            //{
+            //    MessageBox.Show("请上传头像！");
+            //}
             if (!isRegister)
             {
                 newUser.cmd = "02";
@@ -111,7 +111,7 @@ namespace loginSystem
                 newUser.cmd = "03";
             }
             newUser.saveUserInfo(rememberCodeCheckBox.Checked, autoSignCheckBox.Checked);
-            //client.register(newUser);
+            client.register(newUser);
 
 
             //go to the next Form
@@ -181,15 +181,16 @@ namespace loginSystem
         //MARK:Custom class
         public class User
         {
-            public string cmd = "01"; 
+            public string cmd = "1"; 
             public string username;
             public string password;
-            public byte[] userPicture;
+            string userPicture;
+            public int uid;
             public User(string username, string password, byte[] userPhoto)
             {
                 this.username = username;
                 this.password = password;
-                this.userPicture = userPhoto;
+                this.userPicture = "23333";
             }
 
             //save the userinfo
@@ -217,6 +218,11 @@ namespace loginSystem
                 }
                 sw.Close();
             }
+
+            public void addUid(int userUid)
+            {
+                this.uid = userUid;
+            }
         }
 
         public class Client
@@ -234,7 +240,7 @@ namespace loginSystem
                 //create connect to the server
                 try
                 {
-                    ip = IPAddress.Parse("127.0.0.1");
+                    ip = IPAddress.Parse("10.126.15.131");
                 }
                 catch(System.FormatException)
                 {
@@ -250,14 +256,25 @@ namespace loginSystem
                     IPEndPoint port = new IPEndPoint(ip, 1234);
                     clientSocket.Connect(port);
                     clientSocket.Send(message);
-                    byte[] msg = new byte[256];
                     //recieve the message from the server
                     while (true)
                     {
                         try
                         {
-                            clientSocket.Receive(msg, 0, 256, SocketFlags.None);
-                            String data = Encoding.UTF8.GetString(msg);
+                            byte[] msg = new byte[1024];
+                            clientSocket.Receive(msg, 0, 1024, SocketFlags.None);//接受客户端消息
+                            var receivedJson = JsonConvert.DeserializeObject<dynamic>(Encoding.UTF8.GetString(msg));
+                            msg = null;
+
+                            switch ((int)receivedJson.cmd)
+                            {
+                                case 1:
+                                    newuser.addUid((int)receivedJson.uid);
+                                    break;
+                                default:
+                                    MessageBox.Show("注册失败");
+                                    break;
+                            }
                             return true;
                         }
                         catch (SocketException)
