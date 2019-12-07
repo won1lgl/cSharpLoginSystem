@@ -64,12 +64,13 @@ namespace loginSystem
                 }
                 sr.Close();
                 //load the image
+
                 FileStream fs = new FileStream(userPicturePath, FileMode.Open);
                 BinaryReader br = new BinaryReader(fs);
                 int length = Convert.ToInt32(br.BaseStream.Length);
                 userPicturebytes = br.ReadBytes(length);
                 br.Close();
-                fs.Close();
+                //fs.Close();
                 MemoryStream ms = new MemoryStream(userPicturebytes);
                 userPictureBox.Image = Image.FromStream(ms);
                 //change UI
@@ -86,7 +87,7 @@ namespace loginSystem
         private void submitButton_Click(object sender, EventArgs e)
         {
             //register user
-            newUser = new User(usernameTextbox.Text, codeTextbox.Text, userPicturebytes);
+            newUser = new User(usernameTextbox.Text, codeTextbox.Text);
             //check whether the input info is legal
             if (newUser.username == "")
             {
@@ -98,10 +99,10 @@ namespace loginSystem
                 MessageBox.Show("密码不得为空！");
                 return;
             }
-            //if(newUser.userPicture == null)
-            //{
-            //    MessageBox.Show("请上传头像！");
-            //}
+            if(userPicturebytes == null)
+            {
+                MessageBox.Show("请选择您的头像");
+            }
             if (!isRegister)
             {
                 newUser.cmd = "02";
@@ -111,7 +112,7 @@ namespace loginSystem
                 newUser.cmd = "03";
             }
             newUser.saveUserInfo(rememberCodeCheckBox.Checked, autoSignCheckBox.Checked);
-            client.register(newUser);
+            //client.register(newUser);
 
 
             //go to the next Form
@@ -184,13 +185,11 @@ namespace loginSystem
             public string cmd = "1"; 
             public string username;
             public string password;
-            string userPicture;
             public int uid;
-            public User(string username, string password, byte[] userPhoto)
+            public User(string username, string password)
             {
                 this.username = username;
                 this.password = password;
-                this.userPicture = "23333";
             }
 
             //save the userinfo
@@ -270,6 +269,9 @@ namespace loginSystem
                             {
                                 case 1:
                                     newuser.addUid((int)receivedJson.uid);
+                                    break;
+                                case 2:
+                                    Console.WriteLine((string)receivedJson.res);
                                     break;
                                 default:
                                     MessageBox.Show("注册失败");
