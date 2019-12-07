@@ -46,7 +46,7 @@ namespace loginSystem
         {
             userListView.SmallImageList = userImageList;
             userListView.BeginUpdate();
-            for(int i=0; i<100; i++)
+            for(int i=0; i<5; i++)
             {
                 ListViewItem lvi = new ListViewItem();
                 lvi.ImageIndex = i;

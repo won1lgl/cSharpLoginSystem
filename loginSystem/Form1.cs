@@ -38,6 +38,20 @@ namespace loginSystem
             readUserInfo();
         }
 
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            // 设置隐藏
+            if (isAutoSignIn)
+            {
+                MessageBox.Show("自动登录中!，请稍后！");
+                mainForm fm = new mainForm();
+                fm.Show();
+                this.Hide();
+            }
+        }
+
+
         //If exist userinfo, then read it into the textbox
         public void readUserInfo()
         {
@@ -69,12 +83,6 @@ namespace loginSystem
                     
                 }
                 sr.Close();
-                if (isAutoSignIn)
-                {
-                    mainForm fm = new mainForm();
-                    fm.Show();
-                    this.Hide();
-                }
                 //load the image
 
                 FileStream fs = new FileStream(userPicturePath, FileMode.Open);
@@ -82,7 +90,7 @@ namespace loginSystem
                 int length = Convert.ToInt32(br.BaseStream.Length);
                 userPicturebytes = br.ReadBytes(length);
                 br.Close();
-                //fs.Close();
+                fs.Close();
                 MemoryStream ms = new MemoryStream(userPicturebytes);
                 userPictureBox.Image = Image.FromStream(ms);
                 //change UI
@@ -100,25 +108,25 @@ namespace loginSystem
         {
             Boolean isSuccessValidate;
             newUser = new User(usernameTextbox.Text, codeTextbox.Text);
+            //check whether the input info is legal
+            if (newUser.username == "")
+            {
+                MessageBox.Show("用户名不得为空！");
+                return;
+            }
+            if (newUser.password == "")
+            {
+                MessageBox.Show("密码不得为空！");
+                return;
+            }
+            if (userPicturebytes == null)
+            {
+                MessageBox.Show("请选择您的头像");
+                return;
+            }
             if (isChangeUserInfo || isRegister)
             {
                 //register user
-                //check whether the input info is legal
-                if (newUser.username == "")
-                {
-                    MessageBox.Show("用户名不得为空！");
-                    return;
-                }
-                if (newUser.password == "")
-                {
-                    MessageBox.Show("密码不得为空！");
-                    return;
-                }
-                if (userPicturebytes == null)
-                {
-                    MessageBox.Show("请选择您的头像");
-                    return;
-                }
                 if (isChangeUserInfo)
                 {
                     newUser.cmd = "3";
