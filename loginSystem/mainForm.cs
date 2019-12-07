@@ -114,6 +114,8 @@ namespace loginSystem
                         OnlineUser user = new OnlineUser(item["uid"].ToString(), item["username"].ToString());
                         onlineUserList.Add(user);
                     }
+                    UpdateUserBoxList d = new UpdateUserBoxList(updateOnlineUserList);
+                    userListBox.Invoke(d);
                 }
             }
         }
@@ -126,6 +128,25 @@ namespace loginSystem
             {
                 this.username = username;
                 this.uid = uid;
+            }
+        }
+
+        private delegate void UpdateUserBoxList();
+
+        private void updateOnlineUserList()
+        {
+            if (userListBox.InvokeRequired)
+            {
+                UpdateUserBoxList d = new UpdateUserBoxList(updateOnlineUserList);
+                userListBox.Invoke(d);
+            }
+            else
+            {
+                userListBox.Items.Clear();
+                foreach (OnlineUser user in onlineUserList)
+                {
+                    userListBox.Items.Add(user.username);
+                }
             }
         }
     }
