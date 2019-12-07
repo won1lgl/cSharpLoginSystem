@@ -23,8 +23,10 @@ namespace loginSystem
         Client client = new Client();
         User newUser;
         byte[] userPicturebytes; //save the userPicture
+        public int uid;
         private Boolean isRegister;   //judge whether user is register or sign in
         private Boolean isChangeUserInfo = false; //judge whether user choose to change userInfo
+        private Boolean isAutoSignIn = false; 
 
         public Form1()
         {
@@ -56,13 +58,23 @@ namespace loginSystem
                         codeTextbox.Text = userInfoTextArray[1];
                         rememberCodeCheckBox.Checked = true;
                     }
+                    if(userInfoTextArray[0] == "@uid")
+                    {
+                        uid = Convert.ToInt32(userInfoTextArray[1]);
+                    }
                     if (userInfoTextArray[0] == "@autoSign")
                     {
-                        MessageBox.Show("自动登录");
+                        isAutoSignIn = true;
                     }
                     
                 }
                 sr.Close();
+                if (isAutoSignIn)
+                {
+                    mainForm fm = new mainForm();
+                    fm.Show();
+                    this.Hide();
+                }
                 //load the image
 
                 FileStream fs = new FileStream(userPicturePath, FileMode.Open);
@@ -86,39 +98,49 @@ namespace loginSystem
         //MARK:Action
         private void submitButton_Click(object sender, EventArgs e)
         {
-            //register user
+            Boolean isSuccessValidate;
             newUser = new User(usernameTextbox.Text, codeTextbox.Text);
-            //check whether the input info is legal
-            if (newUser.username == "")
+            if (isChangeUserInfo || isRegister)
             {
-                MessageBox.Show("用户名不得为空！");
-                return;
+                //register user
+                //check whether the input info is legal
+                if (newUser.username == "")
+                {
+                    MessageBox.Show("用户名不得为空！");
+                    return;
+                }
+                if (newUser.password == "")
+                {
+                    MessageBox.Show("密码不得为空！");
+                    return;
+                }
+                if (userPicturebytes == null)
+                {
+                    MessageBox.Show("请选择您的头像");
+                    return;
+                }
+                if (isChangeUserInfo)
+                {
+                    newUser.cmd = "3";
+                }
+                //isSuccessValidate = client.register(newUser);
+                newUser.saveUserInfo(rememberCodeCheckBox.Checked, autoSignCheckBox.Checked);
             }
-            if (newUser.password == "")
+            else //when user choose to sign up
             {
-                MessageBox.Show("密码不得为空！");
-                return;
+                SignupUser user = new SignupUser(uid, codeTextbox.Text);
+                //isSuccessValidate = client.register(user);
+                //if (isSuccessValidate)
+                {
+                    newUser.saveUserInfo(rememberCodeCheckBox.Checked, autoSignCheckBox.Checked);
+                }
             }
-            if(userPicturebytes == null)
+            //if (isSuccessValidate)
             {
-                MessageBox.Show("请选择您的头像");
+                mainForm mf = new mainForm();
+                mf.Show();
+                this.Hide();
             }
-            if (!isRegister)
-            {
-                newUser.cmd = "02";
-            }
-            if(isChangeUserInfo)
-            {
-                newUser.cmd = "03";
-            }
-            newUser.saveUserInfo(rememberCodeCheckBox.Checked, autoSignCheckBox.Checked);
-            //client.register(newUser);
-
-
-            //go to the next Form
-            mainForm mf = new mainForm();
-            mf.Show();
-            this.Hide();
         }
 
         //checkbox to show the code
@@ -207,6 +229,7 @@ namespace loginSystem
                     return;
                 }
                 sw.WriteLine($"@username {username}");
+                sw.WriteLine($"@uid {uid}");
                 if (isSaveCode)
                 {
                     sw.WriteLine($"@password {password}");
@@ -224,9 +247,22 @@ namespace loginSystem
             }
         }
 
+        public class SignupUser
+        {
+            public string cmd = "2";
+            public int uid;
+            public string passsword;
+
+            public SignupUser(int userUid, string userPassword)
+            {
+                this.uid = userUid;
+                this.passsword = userPassword;
+            }
+        }
+
         public class Client
         {
-            public Boolean register(User newuser)
+            public Boolean register(Object newuser)
             {
                 //if all input are legal, then send them to the server
                 Socket clientSocket;
@@ -268,16 +304,38 @@ namespace loginSystem
                             switch ((int)receivedJson.cmd)
                             {
                                 case 1:
-                                    newuser.addUid((int)receivedJson.uid);
-                                    break;
+                                    User user = newuser as User;
+                                    if ((string)receivedJson.res == "success")
+                                    {
+                                        user.addUid((int)receivedJson.uid);
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("注册失败");
+                                        return false;
+                                    }
                                 case 2:
-                                    Console.WriteLine((string)receivedJson.res);
-                                    break;
+                                    if ((string)receivedJson.res == "success")
+                                    {
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("登陆失败，密码错误！");
+                                        return false;
+                                    }
                                 default:
-                                    MessageBox.Show("注册失败");
-                                    break;
+                                    if ((string)receivedJson.res == "success")
+                                    {
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("修改账户信息失败！");
+                                        return false;
+                                    }
                             }
-                            return true;
                         }
                         catch (SocketException)
                         {
