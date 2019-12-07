@@ -305,7 +305,7 @@ namespace loginSystem
                         try
                         {
                             byte[] msg = new byte[1024];
-                            clientSocket.Receive(msg, 0, 1024, SocketFlags.None);//接受客户端消息
+                            clientSocket.Receive(msg, 0, 1024, SocketFlags.None);//接受服务器消息
                             var receivedJson = JsonConvert.DeserializeObject<dynamic>(Encoding.UTF8.GetString(msg));
                             msg = null;
 
@@ -316,30 +316,42 @@ namespace loginSystem
                                     if ((string)receivedJson.res == "success")
                                     {
                                         user.addUid((int)receivedJson.uid);
+                                        clientSocket.Shutdown(SocketShutdown.Both);
+                                        clientSocket.Close();
                                         return true;
                                     }
                                     else
                                     {
                                         MessageBox.Show("注册失败");
+                                        clientSocket.Shutdown(SocketShutdown.Both);
+                                        clientSocket.Close();
                                         return false;
                                     }
                                 case 2:
                                     if ((string)receivedJson.res == "success")
                                     {
+                                        clientSocket.Shutdown(SocketShutdown.Both);
+                                        clientSocket.Close();
                                         return true;
                                     }
                                     else
                                     {
+                                        clientSocket.Shutdown(SocketShutdown.Both);
+                                        clientSocket.Close();
                                         MessageBox.Show("登陆失败，密码错误！");
                                         return false;
                                     }
                                 default:
                                     if ((string)receivedJson.res == "success")
                                     {
+                                        clientSocket.Shutdown(SocketShutdown.Both);
+                                        clientSocket.Close();
                                         return true;
                                     }
                                     else
                                     {
+                                        clientSocket.Shutdown(SocketShutdown.Both);
+                                        clientSocket.Close();
                                         MessageBox.Show("修改账户信息失败！");
                                         return false;
                                     }
