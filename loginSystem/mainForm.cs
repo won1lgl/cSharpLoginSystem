@@ -235,5 +235,10 @@ namespace loginSystem
                 this.message = message;
             }
         }
+
+        private void userListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int selectUid = Convert.ToInt32(findUserIdByUsername(userListBox.SelectedItem.ToString()));
+        }
     }
 }

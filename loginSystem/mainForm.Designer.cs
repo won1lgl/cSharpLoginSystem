@@ -91,6 +91,7 @@
             this.userListBox.Name = "userListBox";
             this.userListBox.Size = new System.Drawing.Size(134, 274);
             this.userListBox.TabIndex = 3;
+            this.userListBox.SelectedIndexChanged += new System.EventHandler(this.userListBox_SelectedIndexChanged);
             // 
             // userTalkRichBox
             // 
