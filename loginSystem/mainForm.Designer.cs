@@ -36,7 +36,7 @@
             this.userIdLabel = new System.Windows.Forms.Label();
             this.userListBox = new System.Windows.Forms.ListBox();
             this.userTalkRichBox = new System.Windows.Forms.RichTextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.sendMessageTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -101,14 +101,14 @@
             this.userTalkRichBox.TabIndex = 0;
             this.userTalkRichBox.Text = "";
             // 
-            // textBox1
+            // sendMessageTextBox
             // 
-            this.textBox1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.textBox1.Location = new System.Drawing.Point(221, 344);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(426, 40);
-            this.textBox1.TabIndex = 4;
+            this.sendMessageTextBox.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.sendMessageTextBox.Location = new System.Drawing.Point(221, 344);
+            this.sendMessageTextBox.Multiline = true;
+            this.sendMessageTextBox.Name = "sendMessageTextBox";
+            this.sendMessageTextBox.Size = new System.Drawing.Size(426, 40);
+            this.sendMessageTextBox.TabIndex = 4;
             // 
             // label1
             // 
@@ -147,6 +147,7 @@
             this.sendMessageButton.TabIndex = 8;
             this.sendMessageButton.Text = "发送";
             this.sendMessageButton.UseVisualStyleBackColor = false;
+            this.sendMessageButton.Click += new System.EventHandler(this.sendMessageButton_Click);
             // 
             // mainForm
             // 
@@ -157,7 +158,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.sendMessageTextBox);
             this.Controls.Add(this.userTalkRichBox);
             this.Controls.Add(this.userListBox);
             this.Controls.Add(this.userIdLabel);
@@ -179,7 +180,7 @@
         private System.Windows.Forms.Label userIdLabel;
         private System.Windows.Forms.ListBox userListBox;
         private System.Windows.Forms.RichTextBox userTalkRichBox;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox sendMessageTextBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
